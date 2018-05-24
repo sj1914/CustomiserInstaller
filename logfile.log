@@ -1,0 +1,41 @@
+'Environment Activated...' 
+'Python Script Run...' 
+'Environment Deactivated.' 
+'Preparing for application launch...' 
+'Environment Activated...' 
+'Python Script Run...' 
+'Environment Deactivated.' 
+'Preparing for application launch...' 
+'Environment Activated...' 
+
+C:\Users\sj1914\Documents\Customiser>echo 'Starting script...'  
+'Starting script...' 
+
+C:\Users\sj1914\Documents\Customiser>rem activate menpo >> logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>echo 'Environment Activated...'  1>>logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>python gui.py  1>>logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>echo 'Python Script Run...'  1>>logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>rem deactivate >> logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>echo 'Environment Deactivated.'  1>>logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>echo 'Preparing for application launch...'  1>>logfile.log 
+
+C:\Users\sj1914\Documents\Customiser>rem start Customiser.app 
+
+C:\Users\sj1914\Documents\Customiser>exit
+'Python Script Run...' 
+'Environment Deactivated.' 
+'Preparing for application launch...' 
+'Environment Activated...' 
+'Python Script Run...' 
+'Environment Deactivated.' 
+'Preparing for application launch...' 
+'Environment Activated...' 
+'Python Script Run...' 
+'Environment Deactivated.' 
+'Preparing for application launch...' 
