@@ -6,7 +6,6 @@ from tkinter.ttk import Progressbar
 from tkinter import ttk
 import tkinter as tk
 from image_to_texture import fit_model, save_locally
-from subprocess import Popen
 
 class App:
 

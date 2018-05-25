@@ -20,9 +20,9 @@ detect = load_dlib_frontal_face_detector()
 aam_fitter = load_balanced_frontal_face_fitter()
 
 
-shape_model, landmarks = mio.import_pickle("Child Customisation/pkls/children_under7.pkl")
-texture_model = mio.import_pickle('Child Customisation/pkls/fast_dsift.pkl')
-tcoords, bcoords_img, tri_index_img = mio.import_pickle('Child Customisation/pkls/unwrapped_template_barycentrics.pkl')
+shape_model, landmarks = mio.import_pickle("pkls/children_under7.pkl")
+texture_model = mio.import_pickle('pkls/fast_dsift.pkl')
+tcoords, bcoords_img, tri_index_img = mio.import_pickle('pkls/unwrapped_template_barycentrics.pkl')
 
 def extract_texture(mesh_in_image, background):
 
@@ -48,7 +48,7 @@ def fit_model():
     # os.rename(os.getcwd(), newfile)
 
     # import image
-    image = mio.import_images("Child Customisation/Assets/Resources/User_Image/*.jpg")[0]
+    image = mio.import_images("User_Image/*.jpg")[0]
 
     # the morphable model
     mm = ColouredMorphableModel(shape_model, texture_model, landmarks, 
@@ -83,10 +83,10 @@ def fit_model():
                     trilist=result.final_mesh.trilist)
     
     # return textured_mesh 
-    m3io.export_textured_mesh(textured_mesh, 'Child Customisation/Assets/Resources/User_Image/texture.obj', extension='obj', overwrite=True)
+    m3io.export_textured_mesh(textured_mesh, 'User_Image/texture.obj', extension='obj', overwrite=True)
 
 def save_locally(filename):
-    newdir = os.path.join(os.getcwd(), "Child Customisation/Assets/Resources/User_Image")
+    newdir = os.path.join(os.getcwd(), "User_Image")
     delete_folder_contents(newdir)
 
     newfile = os.path.join(newdir, "original_image.jpg")

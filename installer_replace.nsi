@@ -1,10 +1,10 @@
 !define PRODUCT_NAME "Customiser"
-!define PRODUCT_VERSION "1.01"
+!define PRODUCT_VERSION "1.0"
 !define PY_VERSION "3.6.3"
 !define PY_MAJOR_VERSION "3.6"
 !define BITNESS "32"
 !define ARCH_TAG ""
-!define INSTALLER_NAME "Customiser_1.01.exe"
+!define INSTALLER_NAME "Customiser_1.0.exe"
 !define PRODUCT_ICON "glossyorb.ico"
 
 ; Marker file to tell the uninstaller that it's a user installation
@@ -44,13 +44,15 @@ SectionEnd
 
 Section -Prerequisites
   SetOutPath $INSTDIR\Prerequisites
-  MessageBox MB_YESNO "Install Miniconda?" /SD IDYES IDNO endMiniconda
-    File "../../Prerequisites\Miniconda3-latest-Windows-x86_64.exe"
-    ExecWait "$INSTDIR\Prerequisites\Miniconda3-latest-Windows-x86_64.exe /S /InstallationType=JustMe /AddToPath=1 /RegisterPython=0"
-    Goto endMiniconda
+  IfFileExists $SYSDIR\Miniconda3-latest-Windows-x86_64.exe endMiniconda beginMiniconda
+  Goto endMiniconda
+  beginMiniconda:
+  MessageBox MB_YESNO "For this application Miniconda is needed. Install Miniconda?" /SD IDYES IDNO endMiniconda
+  File "../../Prerequisites\Miniconda3-latest-Windows-x86_64.exe"
+  ExecWait "$INSTDIR\Prerequisites\Miniconda3-latest-Windows-x86_64.exe /S /InstallationType=JustMe /AddToPath=1 /RegisterPython=0"
+  Goto endMiniconda
   endMiniconda:
 SectionEnd
-
 
 Section "!${PRODUCT_NAME}" sec_app
   SetRegView 32
@@ -70,19 +72,20 @@ Section "!${PRODUCT_NAME}" sec_app
     SetOutPath "$INSTDIR"
       File "Customiser.launch.pyw"
       File "glossyorb.ico"
+      File "gui.py"
       File "image_to_texture.py"
       File "execute_python.bat"
-      File "Customiser.exe"
-      File "UnityPlayer.dll"
-      File "environment.yml"
+      File "spec-file.txt"
   
   ; Install directories
     SetOutPath "$INSTDIR\Python"
     File /r "Python\*.*"
     SetOutPath "$INSTDIR\lib"
     File /r "lib\*.*"
-    SetOutPath "$INSTDIR\Customiser_Data"
-    File /r "Customiser_Data\*.*"
+    SetOutPath "$INSTDIR\App"
+    File /r "App\*.*"
+    SetOutPath "$INSTDIR\pkls"
+    File /r "pkls\*.*"
 
 
     ; Install MSVCRT if it's not already on the system
@@ -185,15 +188,16 @@ Section "Uninstall"
   ; Uninstall files
     Delete "$INSTDIR\Customiser.launch.pyw"
     Delete "$INSTDIR\glossyorb.ico"
+    Delete "$INSTDIR\gui.py"
     Delete "$INSTDIR\image_to_texture.py"
     Delete "$INSTDIR\execute_python.bat"
-    Delete "$INSTDIR\Customiser.exe"
-    Delete "$INSTDIR\UnityPlayer.dll"
-    Delete "$INSTDIR\environment.yml"
+    Delete "$INSTDIR\spec-file.txt"
   ; Uninstall directories
     RMDir /r "$INSTDIR\Python"
     RMDir /r "$INSTDIR\lib"
-    RMDir /r "$INSTDIR\Customiser_Data"
+    RMDir /r "$INSTDIR\App"
+    RMDir /r "$INSTDIR\pkls"
+    RMDir /r "$INSTDIR\User_Image"
 
   ; Uninstall shortcuts
       Delete "$SMPROGRAMS\Customiser.lnk"

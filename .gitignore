@@ -1,5 +1,8 @@
-Customiser_Data/
+App/
 lib/
 __pycache__/
 Prerequisites/
 pynsist_pkgs/
+build/
+pkls/
+User_Image/
