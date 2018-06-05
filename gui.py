@@ -1,4 +1,4 @@
-#!C:\Users\sj1914\AppData\Local\Continuum\miniconda3
+#!/Users/summerjones/miniconda3/bin/python
 
 from tkinter import *
 from tkinter import filedialog
@@ -6,54 +6,80 @@ from tkinter.ttk import Progressbar
 from tkinter import ttk
 import tkinter as tk
 from image_to_texture import fit_model, save_locally
+from tkinter import Tk, RIGHT, BOTH, RAISED, TOP
+from tkinter.ttk import Frame, Button, Style
 
-class App:
+
+class SAT(Frame):
 
     filename = ""
 
-    def __init__(self, master):
+    def __init__(self):
+        super().__init__()   
+         
+        self.initUI()
 
-        frame = Frame(master, bd=10)
-        frame.pack()
+    def initUI(self):
+      
+        self.master.title("Self Attachment VR")
+        self.pack(fill=BOTH, expand=True)
 
-        self.intro = Message(frame,text="Upload an image of your child self.")
-        self.intro.pack(side=TOP)
+        frame1 = Frame(self)
+        frame1.pack(fill=BOTH, expand=True)
+        
+        intro1 = Label(frame1, text="Welcome to Self Attachment in VR!", bg="#E8E8E8")
+        intro1.pack(side=LEFT, anchor=N, padx=5)      
 
-        self.quit = Button(frame, text="Cancel", fg="red", command=frame.quit)
-        self.quit.pack(side=LEFT)
+        frame2 = Frame(self)
+        frame2.pack(fill=X)
+        
+        self.info = Label(frame2, text="Please upload an image of your child self to proceed.", bg="#E8E8E8")
+        self.info.pack(side=LEFT, padx=5)         
+       
+        frame3 = Frame(self)
+        frame3.pack(fill=X)      
 
-        self.browse = Button(frame, text="Browse", command=self.open_file)
-        self.browse.pack(side=LEFT)
+        self.entry = Entry(frame3, width=31)
+        self.entry.pack(side=LEFT, padx=5, pady=5)
 
-        self.upload = Button(master, text="Upload", command=self.upload)
-        self.upload.pack(side=TOP)
+        browseButton = Button(frame3, text="Browse...", command=self.open_file)
+        browseButton.pack(fill=X, padx=5, expand=True)  
 
-        self.input = makeentry(master, "File Location:", 10)
-        self.input.pack(side=LEFT)
+        frame5 = Frame(self)
+        frame5.pack(fill=X)
+        
+        self.info2 = Label(frame5, text="Application will launch automatically when upload complete.", bg="#E8E8E8")
+        self.info2.pack(side=LEFT, padx=5)     
 
-        # self.progress = Progressbar(master, length=200)
-        # self.progress.pack(side=BOTTOM)
+        frame4 = Frame(self)
+        frame4.pack(fill=X)
+
+        # closeButton = Button(frame4, text="Close", command=self.quit)
+        # closeButton.pack(side=RIGHT, padx=5, pady=5)
+        uploadButton = Button(frame4, text="Upload", command=self.upload)
+        uploadButton.pack(side=RIGHT, padx=5, pady=5)
+
 
     def open_file(self):
         self.filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
         print(self.filename)
-        self.input.delete(0, END)
-        self.input.insert(0, self.filename)
+        self.entry.delete(0, END)
+        self.entry.insert(0, self.filename)
 
     def upload(self):
         if not self.filename:
+            # self.info.configure(text="No File Selected.")
+            # self.info.configure(bg="red")
             print("no file selected")
+            return
+        # self.info.configure(text="Application will launch automatically when upload complete.")
+        # self.info.configure(bg="green")
         save_locally(self.filename)
         textured_mesh = fit_model() 
-         
+        root.destroy()
 
-def makeentry(parent, caption, width=None, **options):
-    Label(parent, text=caption).pack(side=LEFT)
-    entry = Entry(parent, **options)
-    if width:
-        entry.config(width=width)
-    entry.pack(side=LEFT)
-    return entry
+
+
 
 def center(window):
     window.update_idletasks()
@@ -65,11 +91,7 @@ def center(window):
     window.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
 root = Tk()
+root.geometry("400x150")
 center(root)
-root.title("Upload Image")
-root.geometry('400x400')
-
-app = App(root)
-
-root.mainloop()
-root.destroy()
+app = SAT()
+root.mainloop() 
